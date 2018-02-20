@@ -23,29 +23,41 @@ public class SmoothieApp {
         Connection conn = db.getConnection();
 
         // Get index page
-        Spark.get("/", (res, req) -> {
+        Spark.get("/", (req, res) -> {
 
             HashMap map = new HashMap<>();
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
         // Get raaka-aineet page
-        Spark.get("/raakaaineet", (res, req) -> {
+        Spark.get("/raakaaineet", (req, res) -> {
             RaakaAineDao RADao = new RaakaAineDao(db);
 
             HashMap map = new HashMap<>();
-            RADao.findAll().forEach(ra -> {
-                map.put("lista", ra);
-            });
+            map.put("lista", RADao.findAll());
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
         
+        // Post add raaka-aine
+        
+        Spark.post("/raakaaineet/uusi", (req, res) -> {
+            RaakaAineDao RADao = new RaakaAineDao(db);
+            RaakaAine uusi = new RaakaAine(0, req.queryParams("raakaA"));
+            RADao.saveOrUpdate(uusi);
+            
+            res.redirect("/raakaaineet");
+            return 0;
+        });
+        
         // Post delete raaka-aine
         
-        Spark.post("/:id/poista", (res, req) -> {
-           
-            req.redirect("/raakaaineet");
+        Spark.post("raakaaineet/:id/poista", (req, res) -> {
+            //System.out.println("saatiin poistettava: " + req.params(":id"));
+            RaakaAineDao RADao = new RaakaAineDao(db);
+            RADao.delete(Integer.parseInt(req.params(":id")));
+            
+            res.redirect("/raakaaineet");
             return 0;
         });
     }
