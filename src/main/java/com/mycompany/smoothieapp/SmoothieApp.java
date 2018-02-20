@@ -40,6 +40,14 @@ public class SmoothieApp {
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
+        
+        // Post delete raaka-aine
+        
+        Spark.post("/:id/poista", (res, req) -> {
+           
+            req.redirect("/raakaaineet");
+            return 0;
+        });
     }
 
 }

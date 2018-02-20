@@ -11,13 +11,19 @@
     <body>
 
         <h1>SmoothieApp</h1>
-        <span>Raaka-aineet</span>
+        <h2>Raaka-aineet</h2>
         
         <ul>
             <li th:each="raakaA: ${lista}">
-                <span th:text="${raakaA.nimi}">Vesi</span>
+                <span th:text="${raakaA.nimi}"> Vesi </span>
+                <span>(<a href="@{/{id}/poista(id = ${raakaA.id})}">Poista</a>)</span>
             </li>
         </ul>
+        
+        <h2>Lisää uusi raaka-aine</h2>
+        <form>
+            
+        </form>
         
         <br/>
         <span>Sivukartta:</span><br/>
