@@ -1,0 +1,30 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>SmoothieApp</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+
+        <h1>SmoothieApp</h1>
+        <span>Raaka-aineet</span>
+        
+        <ul>
+            <li th:each="raakaA: ${lista}">
+                <span th:text="{raakaA.nimi}">Vesi</span>
+            </li>
+        </ul>
+        
+        <br/>
+        <span>Sivukartta:</span><br/>
+        <a href="/">Etusivu</a><br/>
+        <a href="/uusiresepti">Lisää uusi resepti</a><br/>
+        <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
+        <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
+
+    </body>
+</html>
