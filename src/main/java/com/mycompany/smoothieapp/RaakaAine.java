@@ -12,7 +12,7 @@ package com.mycompany.smoothieapp;
 public class RaakaAine {
     
     private int id;
-    private String nimi;
+    public String nimi;
     
     public RaakaAine(int id, String nimi) {
         this.id = id;

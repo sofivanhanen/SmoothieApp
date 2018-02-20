@@ -21,19 +21,23 @@ public class SmoothieApp {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Database db = new Database("jdbc:sqlite:smoothiedatabase.db");
         Connection conn = db.getConnection();
-        
+
         // Get index page
         Spark.get("/", (res, req) -> {
-            
-            
+
             HashMap map = new HashMap<>();
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
-        
+
         // Get raaka-aineet page
         Spark.get("/raakaaineet", (res, req) -> {
-            
+            RaakaAineDao RADao = new RaakaAineDao(db);
+
             HashMap map = new HashMap<>();
+            RADao.findAll().forEach(ra -> {
+                map.put("lista", ra);
+            });
+
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
     }
