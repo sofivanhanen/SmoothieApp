@@ -14,10 +14,17 @@
         <span>Etusivu</span>
         
         <ul>
-            <li>
-                
+            <li th:each="smoothieRA: ${lista}">
+                <span th:text="{smoothieRA.smoothie.nimi}">Mansikkasmoothie</span>
             </li>
         </ul>
+        
+        <br/>
+        <span>Sivukartta:</span><br/>
+        <a href="/">Etusivu</a><br/>
+        <a href="/uusiresepti">Lisää uusi resepti</a><br/>
+        <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
+        <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
 
     </body>
 </html>
