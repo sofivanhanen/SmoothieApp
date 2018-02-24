@@ -29,6 +29,7 @@
         <br/>
 
         <h2>Lisää raaka-aineita reseptiin</h2>
+        
         <form action="/smoothiet/muokkaa" method="POST">
             <p>Valitse muokattavan smoothien nimi:</p>
             <select th:field="${smoothiet}">
@@ -42,7 +43,20 @@
                 <option> ... </option>
                 <option th:each="raakaA : ${raakaAineet}" th:value="${raakaA.id}" th:text="${raakaA.nimi}" name="lisattavaRaakaAine"> Vesi</option>
             </select><br/>
-
+            
+            <p>Järjestys:</p>
+            <input type="text" name="lisattavanJarjestys"/>
+            <br/>
+            
+            <p>Määrä:</p>
+            <input type="text" name=="lisattavanMaara"/>
+            <br/>
+            
+            <p>Ohje:</p>
+            <input type="text" name="lisattavanOhje"/>
+            <br/>
+            <p></p>
+            <input type="submit" value="Lisää reseptiin"/>
         </form>
 
         <br/>
