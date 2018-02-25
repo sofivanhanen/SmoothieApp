@@ -32,15 +32,13 @@
         
         <form action="/smoothiet/muokkaa" method="POST">
             <p>Valitse muokattavan smoothien nimi:</p>
-            <select th:field="${smoothiet}">
-                <option> ... </option>
+            <select th:field="${smoothiet}" name="muokattavaSmoothie">
                 <option th:each="smoothie: ${smoothiet}" th:value="${smoothie.id}" th:text="${smoothie.nimi}" name="muokattavaSmoothie"> Marjasmoothie </option>
             </select><br/>
 
             <p>Valitse lisättävä raaka-aine:</p>
 
-            <select th:field="${raakaAineet}">
-                <option> ... </option>
+            <select th:field="${raakaAineet}" name="lisattavaRaakaAine">
                 <option th:each="raakaA : ${raakaAineet}" th:value="${raakaA.id}" th:text="${raakaA.nimi}" name="lisattavaRaakaAine"> Vesi</option>
             </select><br/>
             
@@ -49,7 +47,7 @@
             <br/>
             
             <p>Määrä:</p>
-            <input type="text" name=="lisattavanMaara"/>
+            <input type="text" name="lisattavanMaara"/>
             <br/>
             
             <p>Ohje:</p>

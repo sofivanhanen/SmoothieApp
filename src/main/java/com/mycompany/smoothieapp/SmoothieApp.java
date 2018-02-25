@@ -10,6 +10,7 @@ import com.mycompany.smoothieapp.data.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -32,6 +33,21 @@ public class SmoothieApp {
             map.put("smoothiet", smoothiedao.findAll());
 
             return new ModelAndView(map, "index");
+        }, new ThymeleafTemplateEngine());
+
+        // Get smoothie-specific page
+        Spark.get("/smoothiet/:id", (req, res) -> {
+            AnnosDao smoothiedao = new AnnosDao(db);
+            AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
+
+            HashMap map = new HashMap<>();
+            Annos smoothie = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
+            List<AnnosRaakaAine> resepti = reseptidao.findByAnnos(smoothie.getId());
+
+            map.put("smoothie", smoothie);
+            map.put("resepti", resepti);
+            
+            return new ModelAndView(map, "recipe");
         }, new ThymeleafTemplateEngine());
 
         // Get smoothiet page
@@ -61,6 +77,26 @@ public class SmoothieApp {
             AnnosDao smoothiedao = new AnnosDao(db);
             smoothiedao.delete(Integer.parseInt(req.params(":id")));
 
+            res.redirect("/smoothiet");
+            return 0;
+        });
+        
+        // Post add raaka-aine to recipe
+        Spark.post("/smoothiet/muokkaa", (req,res) -> {
+            AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
+            
+            
+            AnnosRaakaAine uusi = new AnnosRaakaAine(
+                    Integer.parseInt(req.queryParams("lisattavaRaakaAine")), 
+                    Integer.parseInt(req.queryParams("muokattavaSmoothie")),
+                    Integer.parseInt(req.queryParams("lisattavanJarjestys")),
+                    Integer.parseInt(req.queryParams("lisattavanMaara")),
+                    req.queryParams("lisattavanOhje")
+            );
+            
+            
+            reseptidao.saveOrUpdate(uusi);
+            
             res.redirect("/smoothiet");
             return 0;
         });
