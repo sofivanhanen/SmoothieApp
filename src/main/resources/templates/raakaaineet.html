@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>SmoothieApp</title>
+        <meta charset="utf-8" />
+    </head>
+
+    <body>
+
+        <h1>SmoothieApp</h1>
+        <h2>Raaka-aineet</h2>
+
+        <ul>
+            <li th:each="raakaA: ${lista}">
+                <span th:text="${raakaA.nimi}"> Vesi </span>
+                <form th:action="@{~/raakaaineet/{id}/poista(id = ${raakaA.id})}" method="POST"><input type="submit" value="Poista"/></form>
+            </li>
+        </ul>
+
+        <h2>Lisää uusi raaka-aine</h2>
+        <form action="/raakaaineet/uusi" method="POST">
+            <input type="text" name="raakaA"/>
+            <input type="submit"/>
+        </form>
+
+
+        <br/>
+        <h2>Sivukartta:</h2>
+        <a href="/">Etusivu</a><br/>
+        <a href="/smoothiet">Lisää uusi resepti</a><br/>
+        <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
+        <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
+
+    </body>
+</html>
