@@ -16,6 +16,7 @@ public class AnnosRaakaAine {
     private int jarjestys;
     private int maara;
     private String ohje;
+    private RaakaAine raakaAine;
     
     public AnnosRaakaAine(int raakaAineId, int annosId, int jarjestys, int maara, String ohje) {
         this.raakaAineId = raakaAineId;
@@ -63,6 +64,14 @@ public class AnnosRaakaAine {
     
     public void setOhje(String ohje) {
         this.ohje = ohje;
+    }
+    
+    public void setRaakaAine(RaakaAine ra) {
+        this.raakaAine = ra;
+    }
+    
+    public RaakaAine getRaakaAine() {
+        return raakaAine;
     }
     
 }

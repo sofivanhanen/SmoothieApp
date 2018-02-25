@@ -9,6 +9,8 @@ import com.mycompany.smoothieapp.dao.*;
 import com.mycompany.smoothieapp.data.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
@@ -37,13 +39,27 @@ public class SmoothieApp {
 
         // Get smoothie-specific page
         Spark.get("/smoothiet/:id", (req, res) -> {
+            RaakaAineDao RADao = new RaakaAineDao(db);
             AnnosDao smoothiedao = new AnnosDao(db);
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
 
             HashMap map = new HashMap<>();
+            // Find the correct smoothie
             Annos smoothie = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
+            // Fetch and sort all AnnosRaakaAine connections associated with the smoothie
             List<AnnosRaakaAine> resepti = reseptidao.findByAnnos(smoothie.getId());
-
+            Collections.sort(resepti, (a, b) -> a.getJarjestys() < b.getJarjestys() ? -1 : a.getJarjestys() == b.getJarjestys() ? 0 : 1);
+            //
+            List<RaakaAine> raakaAineet = new ArrayList<>();
+            resepti.stream().forEach(ara -> {
+                try {
+                ara.setRaakaAine(RADao.findOne(ara.getRaakaAineId()));
+                } catch (Exception e) {
+                    
+                }
+            });
+            
+            map.put("raakaAineet", raakaAineet);
             map.put("smoothie", smoothie);
             map.put("resepti", resepti);
             
@@ -75,7 +91,10 @@ public class SmoothieApp {
         // Post delete smoothie recipe
         Spark.post("/smoothiet/:id/poista", (req, res) -> {
             AnnosDao smoothiedao = new AnnosDao(db);
+            AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
+            
             smoothiedao.delete(Integer.parseInt(req.params(":id")));
+            reseptidao.deleteByAnnos(Integer.parseInt(req.params(":id")));
 
             res.redirect("/smoothiet");
             return 0;
