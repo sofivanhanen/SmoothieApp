@@ -14,8 +14,8 @@
         <h2>Etusivu</h2>
         
         <ul>
-            <li th:each="smoothieRA: ${lista}">
-                <span th:text="{smoothieRA.smoothie.nimi}">Mansikkasmoothie</span>
+            <li th:each="smoothie: ${smoothiet}">
+                <a th:href="@{~/smoothiet/{id}(id = ${smoothie.id})}"><span th:text="${smoothie.nimi}">Mansikkasmoothie</span></a>
             </li>
         </ul>
         
