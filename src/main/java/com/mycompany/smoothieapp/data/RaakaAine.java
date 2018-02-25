@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.smoothieapp;
+package com.mycompany.smoothieapp.data;
 
 /**
  *
  * @author sofvanh
  */
-public class Annos {
+public class RaakaAine {
     
     private int id;
     private String nimi;
     
-    public Annos(int id, String nimi) {
+    public RaakaAine(int id, String nimi) {
         this.id = id;
         this.nimi = nimi;
     }

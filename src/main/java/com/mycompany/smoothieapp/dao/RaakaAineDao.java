@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.smoothieapp;
+package com.mycompany.smoothieapp.dao;
 
+import com.mycompany.smoothieapp.Database;
+import com.mycompany.smoothieapp.data.RaakaAine;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,17 +18,17 @@ import java.util.List;
  *
  * @author sofvanh
  */
-public class AnnosDao {
+public class RaakaAineDao {
     
     private Database database;
     
-    public AnnosDao(Database database) {
+    public RaakaAineDao(Database database) {
         this.database = database;
     }
     
-    public Annos findOne(Integer key) throws SQLException {
+    public RaakaAine findOne(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM Annos WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM RaakaAine WHERE id = ?");
             stmt.setInt(1, key);
 
             ResultSet result = stmt.executeQuery();
@@ -34,13 +36,13 @@ public class AnnosDao {
                 return null;
             }
 
-            return new Annos(result.getInt("id"), result.getString("nimi"));
+            return new RaakaAine(result.getInt("id"), result.getString("nimi"));
         }
     }
     
-    public Annos findByName(String nimi) throws SQLException {
+    public RaakaAine findByName(String nimi) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM Annos WHERE nimi = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, nimi FROM RaakaAine WHERE nimi = ?");
             stmt.setString(1, nimi);
 
             ResultSet result = stmt.executeQuery();
@@ -48,43 +50,43 @@ public class AnnosDao {
                 return null;
             }
 
-            return new Annos(result.getInt("id"), result.getString("nimi"));
+            return new RaakaAine(result.getInt("id"), result.getString("nimi"));
         }
     }
     
-    public List<Annos> findAll() throws SQLException {
-        List<Annos> annokset = new ArrayList<>();
+    public List<RaakaAine> findAll() throws SQLException {
+        List<RaakaAine> raakaAineet = new ArrayList<>();
 
         try (Connection conn = database.getConnection();
-            ResultSet result = conn.prepareStatement("SELECT id, nimi FROM Annos").executeQuery()) {
+            ResultSet result = conn.prepareStatement("SELECT id, nimi FROM RaakaAine").executeQuery()) {
 
             while (result.next()) {
-                annokset.add(new Annos(result.getInt("id"), result.getString("nimi")));
+                raakaAineet.add(new RaakaAine(result.getInt("id"), result.getString("nimi")));
             }
         }
 
-        return annokset;
+        return raakaAineet;
     }
     
-    public Annos saveOrUpdate(Annos annos) throws SQLException {
-        Annos byName = findByName(annos.getNimi());
+    public RaakaAine saveOrUpdate(RaakaAine raakaAine) throws SQLException {
+        RaakaAine byName = findByName(raakaAine.getNimi());
 
         if (byName != null) {
             return byName;
         } 
 
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
-            stmt.setString(1, annos.getNimi());
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)");
+            stmt.setString(1, raakaAine.getNimi());
             stmt.executeUpdate();
         }
 
-        return findByName(annos.getNimi());
+        return findByName(raakaAine.getNimi());
     }
     
     public void delete(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Annos WHERE id = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM RaakaAine WHERE id = ?");
             stmt.setInt(1, key);
             stmt.executeUpdate();
         }
@@ -92,7 +94,7 @@ public class AnnosDao {
     
     public void deleteByName(String nimi) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Annos WHERE nimi = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM RaakaAine WHERE nimi = ?");
             stmt.setString(1, nimi);
             stmt.executeUpdate();
         }
