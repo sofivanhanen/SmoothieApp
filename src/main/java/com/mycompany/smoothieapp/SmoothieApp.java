@@ -143,8 +143,11 @@ public class SmoothieApp {
         // Post delete raaka-aine
         Spark.post("raakaaineet/:id/poista", (req, res) -> {
             RaakaAineDao RADao = new RaakaAineDao(db);
+            AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
+            
             RADao.delete(Integer.parseInt(req.params(":id")));
-
+            reseptidao.deleteByRaakaAine(Integer.parseInt(req.params(":id")));
+            
             res.redirect("/raakaaineet");
             return 0;
         });

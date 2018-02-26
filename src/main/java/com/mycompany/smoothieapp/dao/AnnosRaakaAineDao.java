@@ -111,4 +111,14 @@ public class AnnosRaakaAineDao {
         }
     }
     
+    public void deleteByRaakaAine(Integer raakaAineId) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
+                    + ANNOS_RAAKA_AINE + " WHERE "
+                    + RAAKA_AINE_ID + " = ?");
+            stmt.setInt(1, raakaAineId);
+            stmt.executeUpdate();
+        }
+    }
+    
 }
