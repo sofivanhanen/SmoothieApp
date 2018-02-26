@@ -152,5 +152,15 @@ public class SmoothieApp {
             res.redirect("/raakaaineet");
             return 0;
         });
+        
+        // Get stats page
+        Spark.get("/tilastot", (req, res) -> {
+            TilastoDao tilastodao = new TilastoDao(db);
+            
+            HashMap map = new HashMap<>();
+            map.put("suosituinRaakaAine", tilastodao.getMostUsed());
+            
+            return new ModelAndView(map, "tilastot");
+        }, new ThymeleafTemplateEngine());
     }
 }

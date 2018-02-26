@@ -2,9 +2,10 @@
 
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
     <head>
         <title>SmoothieApp</title>
-        <meta charset="UTF-8"/>
+        <meta charset="utf-8" />
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'/>
         <link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet'/>
 
@@ -42,25 +43,15 @@
             
         </style>
     </head>
-    
+
     <body>
         <div>
-        <h1 th:text="${smoothie.nimi}">Hanavesi</h1>
-        <p>Raaka-aineet:</p>
-        <ul>
-            <li th:each="annosRA: ${resepti}">
-                <span th:text="${annosRA.raakaAine.nimi}"> Vesi </span>
-                <span th:text="${annosRA.maara}">2</span><span>dl</span>
-            </li>
-        </ul>
-        
-        <p>Ohje:</p>
-        <ol>
-            <li th:each="annosRA: ${resepti}">
-                <span th:text="${annosRA.ohje}"> Leikkaa/Sekoita/Lisää/Joku muu ohje </span>
-            </li>
-        </ol> <br/>
-        
+        <h1>SmoothieApp</h1>
+        <h2>Tilastoja</h2>
+
+        <p>Suosituin raaka-aine: <span th:text="${suosituinRaakaAine.nimi}">Vesi</span></p>
+
+        <br/>
         <h2>Sivukartta:</h2>
         <a href="/">Etusivu</a><br/>
         <a href="/smoothiet">Muokkaa reseptejä</a><br/>
