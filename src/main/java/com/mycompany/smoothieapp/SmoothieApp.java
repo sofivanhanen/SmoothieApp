@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
+import static spark.Spark.staticFiles;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 /**
@@ -152,5 +153,4 @@ public class SmoothieApp {
             return 0;
         });
     }
-
 }
