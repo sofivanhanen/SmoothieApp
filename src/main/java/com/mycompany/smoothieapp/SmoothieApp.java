@@ -25,18 +25,19 @@ public class SmoothieApp {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
+        // Port setup
         if (System.getenv("PORT") != null) {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
         
+        // Config database url
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        
         
         if (!(dbUrl != null && dbUrl.length() > 0)) {
             dbUrl = "jdbc:sqlite:smoothiedatabase.db";
         }
-        Database db = new Database(dbUrl);
         
+        Database db = new Database(dbUrl);
         Connection conn = db.getConnection();
         
         // Get index page
