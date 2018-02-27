@@ -30,7 +30,14 @@ public class SmoothieApp {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
         
-        Database db = new Database("jdbc:sqlite:smoothiedatabase.db");
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        
+        
+        if (!(dbUrl != null && dbUrl.length() > 0)) {
+            dbUrl = "jdbc:sqlite:smoothiedatabase.db";
+        }
+        Database db = new Database(dbUrl);
+        
         Connection conn = db.getConnection();
 
         // Get index page
