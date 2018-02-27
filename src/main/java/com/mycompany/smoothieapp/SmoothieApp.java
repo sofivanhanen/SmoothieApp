@@ -40,6 +40,8 @@ public class SmoothieApp {
         
         Connection conn = db.getConnection();
 
+        Spark.staticFileLocation("/templates");
+        
         // Get index page
         Spark.get("/", (req, res) -> {
             AnnosDao smoothiedao = new AnnosDao(db);

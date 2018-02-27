@@ -8,67 +8,35 @@
         <meta charset="utf-8" />
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'/>
         <link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet'/>
+        <link href='style.css' rel='stylesheet'/>
 
-        <style>
-            body {
-                color: #3e3e3e;
-                background-color: #d0a2c8;
-                font-family: 'Alice';
-                font-size: 18px;
-            }
-
-            h1 {
-                font-family: 'Pacifico';
-                font-size: 42px;
-                font-style: italic;
-            }
-            
-            div {
-                background-color: #f7f7f7;
-                border-radius: 10px;
-                height: 100%;
-                width: 40%;
-                padding: 2%;
-                padding-bottom: 5%;
-                margin-left: 5%; 
-            }
-            
-            a {
-                color: #7bb8e8
-            }
-            
-            a:hover {
-                color: #e67be8;
-            }
-            
-        </style>
     </head>
 
     <body>
         <div>
-        <h1>SmoothieApp</h1>
-        <h2>Raaka-aineet</h2>
+            <h1>SmoothieApp</h1>
+            <h2>Raaka-aineet</h2>
 
-        <ul>
-            <li th:each="raakaA: ${lista}">
-                <span th:text="${raakaA.nimi}"> Vesi </span>
-                <form th:action="@{~/raakaaineet/{id}/poista(id = ${raakaA.id})}" method="POST"><input type="submit" value="Poista"/></form>
-            </li>
-        </ul>
+            <ul>
+                <li th:each="raakaA: ${lista}">
+                    <span th:text="${raakaA.nimi}"> Vesi </span>
+                    <form th:action="@{~/raakaaineet/{id}/poista(id = ${raakaA.id})}" method="POST"><input type="submit" value="Poista"/></form>
+                </li>
+            </ul>
 
-        <h2>Lisää uusi raaka-aine</h2>
-        <form action="/raakaaineet/uusi" method="POST">
-            <input type="text" name="raakaA"/>
-            <input type="submit"/>
-        </form>
+            <h2>Lisää uusi raaka-aine</h2>
+            <form action="/raakaaineet/uusi" method="POST">
+                <input type="text" name="raakaA"/>
+                <input type="submit"/>
+            </form>
 
 
-        <br/>
-        <h2>Sivukartta:</h2>
-        <a href="/">Etusivu</a><br/>
-        <a href="/smoothiet">Muokkaa reseptejä</a><br/>
-        <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
-        <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
+            <br/>
+            <h2>Sivukartta:</h2>
+            <a href="/">Etusivu</a><br/>
+            <a href="/smoothiet">Muokkaa reseptejä</a><br/>
+            <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
+            <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
         </div>
     </body>
 </html>

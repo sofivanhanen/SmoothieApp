@@ -7,65 +7,32 @@
         <meta charset="UTF-8"/>
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'/>
         <link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet'/>
-
-        <style>
-            body {
-                color: #3e3e3e;
-                background-color: #d0a2c8;
-                font-family: 'Alice';
-                font-size: 18px;
-            }
-
-            h1 {
-                font-family: 'Pacifico';
-                font-size: 42px;
-                font-style: italic;
-            }
-            
-            div {
-                background-color: #f7f7f7;
-                border-radius: 10px;
-                height: 100%;
-                width: 40%;
-                padding: 2%;
-                padding-bottom: 5%;
-                margin-left: 5%; 
-            }
-            
-            a {
-                color: #7bb8e8
-            }
-            
-            a:hover {
-                color: #e67be8;
-            }
-            
-        </style>
+        <link href='style.css' rel='stylesheet'/>
     </head>
-    
+
     <body>
         <div>
-        <h1 th:text="${smoothie.nimi}">Hanavesi</h1>
-        <p>Raaka-aineet:</p>
-        <ul>
-            <li th:each="annosRA: ${resepti}">
-                <span th:text="${annosRA.raakaAine.nimi}"> Vesi </span>
-                <span th:text="${annosRA.maara}">2</span><span>dl</span>
-            </li>
-        </ul>
-        
-        <p>Ohje:</p>
-        <ol>
-            <li th:each="annosRA: ${resepti}">
-                <span th:text="${annosRA.ohje}"> Leikkaa/Sekoita/Lisää/Joku muu ohje </span>
-            </li>
-        </ol> <br/>
-        
-        <h2>Sivukartta:</h2>
-        <a href="/">Etusivu</a><br/>
-        <a href="/smoothiet">Muokkaa reseptejä</a><br/>
-        <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
-        <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
+            <h1 th:text="${smoothie.nimi}">Hanavesi</h1>
+            <p>Raaka-aineet:</p>
+            <ul>
+                <li th:each="annosRA: ${resepti}">
+                    <span th:text="${annosRA.raakaAine.nimi}"> Vesi </span>
+                    <span th:text="${annosRA.maara}">2</span><span>dl</span>
+                </li>
+            </ul>
+
+            <p>Ohje:</p>
+            <ol>
+                <li th:each="annosRA: ${resepti}">
+                    <span th:text="${annosRA.ohje}"> Leikkaa/Sekoita/Lisää/Joku muu ohje </span>
+                </li>
+            </ol> <br/>
+
+            <h2>Sivukartta:</h2>
+            <a href="/">Etusivu</a><br/>
+            <a href="/smoothiet">Muokkaa reseptejä</a><br/>
+            <a href="/raakaaineet">Lisää/Poista raaka-aineita</a><br/>
+            <a href="/tilastot">Tarkastele smoothieihin liittyviä tilastoja</a><br/>
         </div>
     </body>
 </html>
