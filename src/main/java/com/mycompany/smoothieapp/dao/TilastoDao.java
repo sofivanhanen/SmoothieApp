@@ -6,6 +6,7 @@
 package com.mycompany.smoothieapp.dao;
 
 import com.mycompany.smoothieapp.Database;
+import com.mycompany.smoothieapp.data.Annos;
 import com.mycompany.smoothieapp.data.RaakaAine;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,83 @@ public class TilastoDao {
         conn.close();
         
         return null;
+    }
+    
+    public Annos getAnnosWithMostRaakaAine() throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement
+        ("SELECT TOP 1 Annos.nimi AS annos, COUNT(*) AS lkm "
+                + "FROM Annos, AnnosRaakaAine " 
+                + "WHERE Annos.id = AnnosRaakaAine.annos_id "
+                + "GROUP BY Annos.nimi "
+                + "ORDER BY lkm DESC;");
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            AnnosDao ADao = new AnnosDao(database);
+            
+            Annos suosituin = ADao.findByName(rs.getString("annos"));
+            
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            return suosituin;
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return null;
+    }
+    
+    public int numberOfRaakaAine() throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement
+        ("SELECT COUNT(*) AS lkm FROM RaakaAine;");
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+
+            int arvo = rs.getInt("lkm");
+            
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            return arvo;
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return -1;
+    }
+    
+    public int numberOfAnnos() throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement
+        ("SELECT COUNT(*) AS lkm FROM Annos;");
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            
+            int arvo = rs.getInt("lkm");
+            
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            return arvo;
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return -1;
     }
     
 }
