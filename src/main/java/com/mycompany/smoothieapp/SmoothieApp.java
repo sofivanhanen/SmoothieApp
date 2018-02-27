@@ -105,9 +105,10 @@ public class SmoothieApp {
             AnnosDao smoothiedao = new AnnosDao(db);
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
 
-            smoothiedao.delete(Integer.parseInt(req.params(":id")));
             reseptidao.deleteByAnnos(Integer.parseInt(req.params(":id")));
+            smoothiedao.delete(Integer.parseInt(req.params(":id")));
 
+            
             res.redirect("/smoothiet");
             return 0;
         });
@@ -155,9 +156,10 @@ public class SmoothieApp {
             RaakaAineDao RADao = new RaakaAineDao(db);
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
 
-            RADao.delete(Integer.parseInt(req.params(":id")));
             reseptidao.deleteByRaakaAine(Integer.parseInt(req.params(":id")));
+            RADao.delete(Integer.parseInt(req.params(":id")));
 
+            
             res.redirect("/raakaaineet");
             return 0;
         });
