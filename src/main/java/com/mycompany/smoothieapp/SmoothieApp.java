@@ -25,6 +25,11 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class SmoothieApp {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        
+        if (System.getenv("PORT") != null) {
+            Spark.port(Integer.valueOf(System.getenv("PORT")));
+        }
+        
         Database db = new Database("jdbc:sqlite:smoothiedatabase.db");
         Connection conn = db.getConnection();
 
@@ -54,16 +59,16 @@ public class SmoothieApp {
             List<RaakaAine> raakaAineet = new ArrayList<>();
             resepti.stream().forEach(ara -> {
                 try {
-                ara.setRaakaAine(RADao.findOne(ara.getRaakaAineId()));
+                    ara.setRaakaAine(RADao.findOne(ara.getRaakaAineId()));
                 } catch (Exception e) {
-                    
+
                 }
             });
-            
+
             map.put("raakaAineet", raakaAineet);
             map.put("smoothie", smoothie);
             map.put("resepti", resepti);
-            
+
             return new ModelAndView(map, "recipe");
         }, new ThymeleafTemplateEngine());
 
@@ -93,30 +98,28 @@ public class SmoothieApp {
         Spark.post("/smoothiet/:id/poista", (req, res) -> {
             AnnosDao smoothiedao = new AnnosDao(db);
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
-            
+
             smoothiedao.delete(Integer.parseInt(req.params(":id")));
             reseptidao.deleteByAnnos(Integer.parseInt(req.params(":id")));
 
             res.redirect("/smoothiet");
             return 0;
         });
-        
+
         // Post add raaka-aine to recipe
-        Spark.post("/smoothiet/muokkaa", (req,res) -> {
+        Spark.post("/smoothiet/muokkaa", (req, res) -> {
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
-            
-            
+
             AnnosRaakaAine uusi = new AnnosRaakaAine(
-                    Integer.parseInt(req.queryParams("lisattavaRaakaAine")), 
+                    Integer.parseInt(req.queryParams("lisattavaRaakaAine")),
                     Integer.parseInt(req.queryParams("muokattavaSmoothie")),
                     Integer.parseInt(req.queryParams("lisattavanJarjestys")),
                     Integer.parseInt(req.queryParams("lisattavanMaara")),
                     req.queryParams("lisattavanOhje")
             );
-            
-            
+
             reseptidao.saveOrUpdate(uusi);
-            
+
             res.redirect("/smoothiet");
             return 0;
         });
@@ -145,21 +148,21 @@ public class SmoothieApp {
         Spark.post("raakaaineet/:id/poista", (req, res) -> {
             RaakaAineDao RADao = new RaakaAineDao(db);
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
-            
+
             RADao.delete(Integer.parseInt(req.params(":id")));
             reseptidao.deleteByRaakaAine(Integer.parseInt(req.params(":id")));
-            
+
             res.redirect("/raakaaineet");
             return 0;
         });
-        
+
         // Get stats page
         Spark.get("/tilastot", (req, res) -> {
             TilastoDao tilastodao = new TilastoDao(db);
-            
+
             HashMap map = new HashMap<>();
             map.put("suosituinRaakaAine", tilastodao.getMostUsed());
-            
+
             return new ModelAndView(map, "tilastot");
         }, new ThymeleafTemplateEngine());
     }
