@@ -24,22 +24,22 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class SmoothieApp {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        
+
         // Port setup
         if (System.getenv("PORT") != null) {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
-        
+
         // Config database url
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        
+
         if (!(dbUrl != null && dbUrl.length() > 0)) {
             dbUrl = "jdbc:sqlite:smoothiedatabase.db";
         }
-        
+
         Database db = new Database(dbUrl);
         Connection conn = db.getConnection();
-        
+
         // Get index page
         Spark.get("/", (req, res) -> {
             AnnosDao smoothiedao = new AnnosDao(db);
@@ -109,7 +109,6 @@ public class SmoothieApp {
             reseptidao.deleteByAnnos(Integer.parseInt(req.params(":id")));
             smoothiedao.delete(Integer.parseInt(req.params(":id")));
 
-            
             res.redirect("/smoothiet");
             return 0;
         });
@@ -117,17 +116,21 @@ public class SmoothieApp {
         // Post add raaka-aine to recipe
         Spark.post("/smoothiet/muokkaa", (req, res) -> {
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
+            
+            // If compulsory queryParams are left empty, skip and return
+            if (!req.queryParams("lisattavanJarjestys").equals("") && !req.queryParams("lisattavanMaara").equals("")) {
 
-            AnnosRaakaAine uusi = new AnnosRaakaAine(
-                    Integer.parseInt(req.queryParams("lisattavaRaakaAine")),
-                    Integer.parseInt(req.queryParams("muokattavaSmoothie")),
-                    Integer.parseInt(req.queryParams("lisattavanJarjestys")),
-                    Integer.parseInt(req.queryParams("lisattavanMaara")),
-                    req.queryParams("lisattavanOhje")
-            );
+                AnnosRaakaAine uusi = new AnnosRaakaAine(
+                        Integer.parseInt(req.queryParams("lisattavaRaakaAine")),
+                        Integer.parseInt(req.queryParams("muokattavaSmoothie")),
+                        Integer.parseInt(req.queryParams("lisattavanJarjestys")),
+                        Integer.parseInt(req.queryParams("lisattavanMaara")),
+                        req.queryParams("lisattavanOhje")
+                );
 
-            reseptidao.saveOrUpdate(uusi);
-
+                reseptidao.saveOrUpdate(uusi);
+            }
+            
             res.redirect("/smoothiet");
             return 0;
         });
@@ -160,7 +163,6 @@ public class SmoothieApp {
             reseptidao.deleteByRaakaAine(Integer.parseInt(req.params(":id")));
             RADao.delete(Integer.parseInt(req.params(":id")));
 
-            
             res.redirect("/raakaaineet");
             return 0;
         });
@@ -168,9 +170,22 @@ public class SmoothieApp {
         // Get stats page
         Spark.get("/tilastot", (req, res) -> {
             TilastoDao tilastodao = new TilastoDao(db);
+            AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
 
             HashMap map = new HashMap<>();
+
             map.put("suosituinRaakaAine", tilastodao.getMostUsed());
+            map.put("raakaAineitaYhteensa", tilastodao.numberOfRaakaAine());
+            map.put("reseptejaYhteensa", tilastodao.numberOfAnnos());
+
+            // Find the Annos with the most Ingredients and count them
+            Annos suurin = tilastodao.getAnnosWithMostRaakaAine();
+            if (suurin.getNimi().equals("Ei mitään")) {
+                map.put("suurinAnnosKoko", 0);
+            } else {
+                map.put("suurinAnnosKoko", reseptidao.findByAnnos(suurin.getId()).size());
+            }
+            map.put("suurinAnnos", suurin);
 
             return new ModelAndView(map, "tilastot");
         }, new ThymeleafTemplateEngine());

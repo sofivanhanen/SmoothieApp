@@ -21,7 +21,11 @@
                 font-size: 42px;
                 font-style: italic;
             }
-            
+
+            span.bold {
+                font-weight: bold;
+            }
+
             div {
                 background-color: #f7f7f7;
                 border-radius: 10px;
@@ -31,11 +35,11 @@
                 padding-bottom: 5%;
                 margin-left: 5%; 
             }
-            
+
             a {
                 color: #7bb8e8
             }
-            
+
             a:hover {
                 color: #e67be8;
             }
@@ -48,7 +52,18 @@
             <h1>SmoothieApp</h1>
             <h2>Tilastoja</h2>
 
-            <p>Suosituin raaka-aine: <span th:text="${suosituinRaakaAine.nimi}">Vesi</span></p>
+            <p><span class="bold">Raaka-aineita yhteensä:</span><br/>  
+                <span th:text="${raakaAineitaYhteensa}">0</span></p>
+            
+            <p><span class="bold">Suosituin raaka-aine:</span><br/>    
+                <span th:text="${suosituinRaakaAine.nimi}">Vesi</span></p>
+            
+            <p><span class="bold">Reseptejä yhteensä:</span><br/>    
+                <span th:text="${reseptejaYhteensa}">0</span></p>
+            
+            <p><span class="bold">Eniten raaka-aineita annoksessa:</span><br/>    
+            <span th:text="${suurinAnnos.nimi}">Vesilasi</span>, 
+            <span th:text="${suurinAnnosKoko}">2</span> raaka-ainetta</p>
 
             <br/>
             <h2>Sivukartta:</h2>
