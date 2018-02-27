@@ -8,7 +8,38 @@
         <meta charset="utf-8" />
         <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'/>
         <link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet'/>
-        <link href='style.css' rel='stylesheet'/>
+        <style type="text/css">
+            body {
+                color: #3e3e3e;
+                background-color: #d0a2c8;
+                font-family: 'Alice';
+                font-size: 18px;
+            }
+
+            h1 {
+                font-family: 'Pacifico';
+                font-size: 42px;
+                font-style: italic;
+            }
+
+            div {
+                background-color: #f7f7f7;
+                border-radius: 10px;
+                height: 100%;
+                width: 40%;
+                padding: 2%;
+                padding-bottom: 5%;
+                margin-left: 5%; 
+            }
+
+            a {
+                color: #7bb8e8
+            }
+
+            a:hover {
+                color: #e67be8;
+            }
+        </style>
     </head>
 
     <body>
@@ -18,7 +49,7 @@
 
             <ul>
                 <li th:each="smoothie: ${smoothiet}">
-                    <a th:href="@{~/smoothiet/{id}(id = ${smoothie.id})}"><span th:text="${smoothie.nimi}"></span></a>
+                    <a th:href="@{~/smoothiet/{id}(id = ${smoothie.id})}"><span th:text="${smoothie.nimi}">Mansikkasmoothie</span></a>
                 </li>
             </ul>
 

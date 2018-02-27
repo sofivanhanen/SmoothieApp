@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
-import static spark.Spark.staticFiles;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 /**
@@ -39,8 +38,6 @@ public class SmoothieApp {
         Database db = new Database(dbUrl);
         
         Connection conn = db.getConnection();
-
-        Spark.staticFileLocation("/templates");
         
         // Get index page
         Spark.get("/", (req, res) -> {
