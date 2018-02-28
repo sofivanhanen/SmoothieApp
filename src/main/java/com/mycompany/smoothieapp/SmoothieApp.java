@@ -59,10 +59,12 @@ public class SmoothieApp {
             HashMap map = new HashMap<>();
             // Find the correct smoothie
             Annos smoothie = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
+            
             // Fetch and sort all AnnosRaakaAine connections associated with the smoothie
             List<AnnosRaakaAine> resepti = reseptidao.findByAnnos(smoothie.getId());
             Collections.sort(resepti, (a, b) -> a.getJarjestys() < b.getJarjestys() ? -1 : a.getJarjestys() == b.getJarjestys() ? 0 : 1);
-            //
+            
+            // Put the RaakaAineet in place as well
             List<RaakaAine> raakaAineet = new ArrayList<>();
             resepti.stream().forEach(ara -> {
                 try {
@@ -118,7 +120,10 @@ public class SmoothieApp {
             AnnosRaakaAineDao reseptidao = new AnnosRaakaAineDao(db);
             
             // If compulsory queryParams are left empty, skip and return
-            if (!req.queryParams("lisattavanJarjestys").equals("") && !req.queryParams("lisattavanMaara").equals("")) {
+            if (!req.queryParams("lisattavanJarjestys").equals("") 
+                    && !req.queryParams("lisattavanMaara").equals("")
+                    && !req.queryParams("lisattavaRaakaAine").equals("...")
+                    && !req.queryParams("muokattavaSmoothie").equals("...")) {
 
                 AnnosRaakaAine uusi = new AnnosRaakaAine(
                         Integer.parseInt(req.queryParams("lisattavaRaakaAine")),

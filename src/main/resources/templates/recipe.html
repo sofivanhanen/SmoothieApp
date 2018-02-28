@@ -53,11 +53,9 @@
             </ul>
 
             <p>Ohje:</p>
-            <ol>
-                <li th:each="annosRA: ${resepti}">
-                    <span th:text="${annosRA.ohje}"> Leikkaa/Sekoita/Lisää/Joku muu ohje </span>
-                </li>
-            </ol> <br/>
+            
+            <p th:each="annosRA: ${resepti}" th:text="${annosRA.ohje}"> Leikkaa/Sekoita/Lisää/Joku muu ohje </p>
+            <br/>
 
             <h2>Sivukartta:</h2>
             <a href="/">Etusivu</a><br/>
